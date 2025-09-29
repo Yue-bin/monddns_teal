@@ -1,5 +1,5 @@
 -- 定义一个 record 类型，名为 Logger，用来描述 _M 的结构
-local record Logger
+global record Logger
     
     enum LogLevels
     "TRACE"

@@ -6,7 +6,7 @@
         成功：一个数组，每一个元素是一个IP地址
         失败：nil, code, err
 ]]
-local type IPList = {string}
+global type IPList = {string}
 local http = require("socket.http")
 
 -- 从url获取ip

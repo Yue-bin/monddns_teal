@@ -2,7 +2,7 @@
 
 -- monddns.lua
 
-local log : log = require("mods/log")
+local log = require("mods/log")
 local dnsrecord = require("mods/dnsrecord")
 local getip = require("mods/getip")
 local json = require("cjson")
@@ -10,7 +10,7 @@ local socket = require("socket")
 local dns = socket.dns
 
 -- Parse Configuration
-local conf = require("confloader").load_conf("monddns", arg)
+local conf = require("mods/confloader").load_conf("monddns", arg)
 if conf == nil then
     print("Failed to load configuration")
     os.exit(1)
