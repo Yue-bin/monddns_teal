@@ -2,22 +2,10 @@
 
 -- monddns.lua
 
-function is_rel_path(path)
-    return not string.match(path, "^/")
-end
-
--- 提供相对require的能力
-PATH = string.match(arg[0], "^(.+)/[^/]+$") .. "/"
--- 判断是否为绝对路径
-if is_rel_path(PATH) then
-    PATH = os.getenv("PWD") .. "/" .. PATH
-end
-package.path = ('%s?.lua;%s'):format(PATH .. "mods/", package.path)
-
-local log = require("log")
-local dnsrecord = require("dnsrecord")
+local log : log = require("mods/log")
+local dnsrecord = require("mods/dnsrecord")
+local getip = require("mods/getip")
 local json = require("cjson")
-local getip = require("getip")
 local socket = require("socket")
 local dns = socket.dns
 

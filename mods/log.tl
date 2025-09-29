@@ -1,3 +1,25 @@
+-- 定义一个 record 类型，名为 Logger，用来描述 _M 的结构
+local record logger
+    -- 定义日志级别常量
+    -- 这里我们使用 string 类型，也可以使用枚举（enum）如果可能的值是固定的
+    record loglevels
+        TRACE: number
+        DEBUG: number
+        INFO: number
+        WARN: number
+        ERROR: number
+        FATAL: number
+    end
+    -- 模块的字段类型
+    LOG_LEVEL: string
+    record writable_stream
+        write: function(self: writable_stream, ...: any)
+    end
+    outputstream: writable_stream
+    -- 模块的方法类型
+    setlevel: function(self: logger, level: string)
+    log: function(self: logger, msg: string, level: string)
+end
 local _M = {}
 
 -- 日志相关
