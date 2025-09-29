@@ -6,14 +6,14 @@
         成功：一个数组，每一个元素是一个IP地址
         失败：nil, code, err
 ]]
-local type iplist = {string}
+local type IPList = {string}
 local http = require("socket.http")
 
 -- 从url获取ip
-local function from_url(url:string) :iplist | nil, number, string
+local function from_url(url:string) :IPList | nil, number, string
     local body, code = http.request(url)
     if code == 200 then
-        local ip_list:iplist = {}
+        local ip_list:IPList = {}
         for line in string.gmatch(body, "[^\r\n]+") do
             table.insert(ip_list, line)
         end
@@ -24,10 +24,10 @@ local function from_url(url:string) :iplist | nil, number, string
 end
 
 -- 从命令获取ip
-local function from_cmd(cmd:string) :iplist | nil, number, string
+local function from_cmd(cmd:string) :IPList | nil, number, string
     local f, err = io.popen(cmd)
     if f then
-        local ip_list:iplist = {}
+        local ip_list:IPList = {}
         for line in f:lines() do
             table.insert(ip_list, line)
         end
@@ -39,12 +39,12 @@ local function from_cmd(cmd:string) :iplist | nil, number, string
 end
 
 -- 从固定值获取ip
-local function from_value(value:string) :iplist
+local function from_value(value:string) :IPList
     return { value }
 end
 
 -- 选择获取ip的方法
-local function selector(method:string, content:string) :iplist | nil, number, string
+local function selector(method:string, content:string) :IPList | nil, number, string
     if method == "url" then
         return from_url(content)
     elseif method == "cmd" then

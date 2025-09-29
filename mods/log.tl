@@ -1,7 +1,7 @@
 -- 定义一个 record 类型，名为 Logger，用来描述 _M 的结构
-local record logger
+local record Logger
     
-    enum log_levels
+    enum LogLevels
     "TRACE"
     "DEBUG"
     "INFO"
@@ -10,21 +10,21 @@ local record logger
     "FATAL"
 end
     -- 模块的字段类型
-    LOG_LEVEL: log_levels
-    record writable_stream
-        write: function(self: writable_stream, ...: any)
+    LOG_LEVEL: LogLevels
+    record WritableStream
+        write: function(self: WritableStream, ...: any)
     end
-    outputstream: writable_stream
+    outputstream: WritableStream
     -- 模块的方法类型
-    setlevel: function(self: logger, level: log_levels)
-    log: function(self: logger, msg: string, level: log_levels|nil)
+    setlevel: function(self: Logger, level: LogLevels)
+    log: function(self: Logger, msg: string, level: LogLevels|nil)
 end
-local _M : logger = {}
+local _M : Logger = {}
 
 -- 日志相关
 -- 搬了一点monlog
 
-local loglevels :{logger.log_levels:number} = {
+local loglevels :{Logger.LogLevels:number} = {
     TRACE = 1,
     DEBUG = 2,
     INFO  = 3,
@@ -42,7 +42,7 @@ _M.LOG_LEVEL = "INFO"
 _M.outputstream = nil
 
 -- 设置日志级别
-function _M:setlevel(level : logger.log_levels)
+function _M:setlevel(level : Logger.LogLevels)
     if loglevels[level] ~= nil then
         _M.LOG_LEVEL = level
     else
@@ -53,8 +53,8 @@ end
 -- 输出日志
 -- outputstream默认为stderr
 -- level默认为INFO
-function _M:log(msg : string, level : logger.log_levels|nil)
-    level = level or ("INFO" as logger.log_levels|nil)
+function _M:log(msg : string, level : Logger.LogLevels|nil)
+    level = level or ("INFO" as Logger.LogLevels|nil)
     if loglevels[level] >= loglevels[_M.LOG_LEVEL] then
         -- 使用outputstream输出日志
         self.outputstream:write(os.date("%Y.%m.%d-%H:%M:%S"), " [", level, "] ", msg, "\n")
@@ -62,8 +62,8 @@ function _M:log(msg : string, level : logger.log_levels|nil)
 end
 
 -- 初始化
-local function init(stream : logger.writable_stream|nil) : logger
-    _M.outputstream = stream or (io.stderr as logger.writable_stream)
+local function init(stream : Logger.WritableStream|nil) : Logger
+    _M.outputstream = stream or (io.stderr as Logger.WritableStream)
     return _M
 end
 
