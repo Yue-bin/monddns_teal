@@ -10,10 +10,10 @@ local http = require("socket.http")
 local ltn12 = require("ltn12")
 local json = require("cjson")
 local hmac = require("openssl.hmac")
-local dnsrecord = require("mod.dnsrecord")
+local dnsrecord = require("mods.dnsrecord")
 local basexx = require("basexx")
 
-local log = nil
+local log : Logger
 local req_headers = {
     ["Content-Type"] = "application/x-www-form-urlencoded",
 }
@@ -261,7 +261,7 @@ function _M.new(init_info)
     else
         return nil, "invalid auth type"
     end
-    log = init_info.log or require("log").init()
+    log = init_info.log or require("mods.log").init(nil)
     return _M
 end
 
